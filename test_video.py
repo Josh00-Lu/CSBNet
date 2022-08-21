@@ -29,7 +29,6 @@ def get_files(img_dir):
     # return [os.path.join(img_dir,x) for x in files]
     return paths
 
-#加载图片
 def load_images(content_dir, style_dir):
     if os.path.isdir(content_dir):
         content_paths = get_files(content_dir)
@@ -41,7 +40,6 @@ def load_images(content_dir, style_dir):
         style_paths = [style_dir]
     return content_paths, style_paths
 
-#图片预处理
 def test_transform(size, crop):
     transform_list = []
     if size != 0: 
@@ -52,7 +50,6 @@ def test_transform(size, crop):
     transform = transforms.Compose(transform_list)
     return transform
 
-#风格图预处理
 def style_transform(ori_size):
     transform_list = []
     max_s = int (np.max(ori_size))
@@ -62,7 +59,6 @@ def style_transform(ori_size):
     transform = transforms.Compose(transform_list)
     return transform
 
-#内容图预处理
 def content_transform(ori_size):
     resized = 0
     transform_list = []
@@ -70,7 +66,7 @@ def content_transform(ori_size):
     thresh = 640
     if max_s > thresh:
         resized = 1
-        ratio = max_s / thresh#等比缩放
+        ratio = max_s / thresh
         current_size = (int(ori_size[0] / ratio), int(ori_size[1] / ratio))
         transform_list.append(transforms.Resize(current_size))
     transform_list.append(transforms.ToTensor())
@@ -84,7 +80,6 @@ def resize_transform(ori_size):
     transform = transforms.Compose(transform_list)
     return transform
 
-#图片处理，调用style_tansfer
 def image_process(network, content, style):
     C_size = content.size[::-1]
     S_size = style.size[::-1]
@@ -108,7 +103,6 @@ def image_process(network, content, style):
     
     return output.cpu()
 
-#加载视频
 def load_video(content_path,style_path, outfile):
     video = cv2.VideoCapture(content_path)
     rate = video.get(5)
@@ -116,14 +110,13 @@ def load_video(content_path,style_path, outfile):
     video_name = outfile + f"/{splitext(basename(content_path))[0]}_stylized_{splitext(basename(style_path))[0]}.mp4"
     videoWriter = imageio.get_writer(video_name, mode='I', fps=fps, macro_block_size = None)
     return video,videoWriter
-#存储视频
+
 def save_frame(output, videoWriter):
     output = output.cpu().detach().numpy().transpose(1,2,0)
     output = np.clip(output, 0, 1)
     output = (output * 255).astype(np.uint8)
     videoWriter.append_data(output)
 
-#视频风格化
 def process_video(network, content_path, style_path, outfile):    
     j = 0
     video, videoWriter = load_video(content_path, style_path, outfile)
