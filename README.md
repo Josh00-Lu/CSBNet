@@ -27,9 +27,9 @@ Universal video style transfer aims to migrate arbitrary styles to input videos.
 * numpy
 
 ### Download the Pretrained Models
-* Download the pretrained VGGNet [Google-Drive](https://drive.google.com/file/d/1tFbow4NL6KuO4-DGLK3dhu3uowpAces-/view?usp=sharing)
+* Download the pretrained encoder: VGGNet [Google-Drive](https://drive.google.com/file/d/1tFbow4NL6KuO4-DGLK3dhu3uowpAces-/view?usp=sharing)
 
-* (Optional) Download the pretrained CSBNet (KC=4, KS=-10) [Google-Drive](https://drive.google.com/file/d/1xQLiBL2MMffFun7x9a2aaHJ0cj4hJgb0/view?usp=sharing)
+* (Optional) Download the pretrained model: CSBNet (KC=4, KS=-10) [Google-Drive](https://drive.google.com/file/d/1xQLiBL2MMffFun7x9a2aaHJ0cj4hJgb0/view?usp=sharing)
 
 You can put these two files in the folder "models". Example directory hierarchy:
 ```sh
