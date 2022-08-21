@@ -102,10 +102,6 @@ def calc_style_loss(input, target):
             
 def get_total_loss(network, content, style, args):
     
-
-    # style_feat_SVD = network.crsp_s(style_feats[-2])
-    # content_feat_SVD = network.crsp_c(content_feats[-2])
-    # content_feat_N_SVD = network.crsp_c(content_feats_N[-2])
     Ics = network(content, style)
     
     
