@@ -191,64 +191,9 @@ class Net(nn.Module):
         return results[1:]
     
     def forward(self, content, style):
-        # s = torch.empty(1)
-        # t  = torch.empty(content.size())
-
-        # std = torch.nn.init.uniform_(s, a=0.01, b=0.02)
-        # noise = torch.nn.init.normal(t, mean=0, std=std[0]).cuda()
-        # content_noise = content + noise
 
         content_feats = self.encode_with_intermediate(content)
         style_feats = self.encode_with_intermediate(style)
         
-        # content_feats_N = self.encode_with_intermediate(content_noise)
-        
-        # style_feat_SVD = self.crsp_s(style_feats[-2])
-        # content_feat_SVD = self.crsp_c(content_feats[-2])
-        # content_feat_N_SVD = self.crsp_c(content_feats_N[-2])
-        
         Ics = self.csbnet(content_feats[-2], style_feats[-2])
         return Ics
-        
-        # Ics_feats = self.encode_with_intermediate(Ics)
-        
-        
-        # # Content loss
-        # loss_c = self.calc_content_loss(
-        #     normal(Ics_feats[-1]),normal(content_feats[-1])
-        # )+self.calc_content_loss(
-        #     normal(Ics_feats[-2]),normal(content_feats[-2])
-        # )+self.calc_content_loss(Ics_feats[-2], content_feat_SVD)
-        
-        # # Style loss
-        # loss_s = self.calc_style_loss(Ics_feats[0], style_feats[0])
-        # for i in range(1, 5):
-        #     loss_s += self.calc_style_loss(Ics_feats[i], style_feats[i])
-        
-        # loss_s += self.calc_style_loss(Ics_feats[-2],style_feat_SVD)
-
-        # # total variation loss
-        # y = Ics
-        # tv_loss = torch.sum(torch.abs(y[:, :, :, :-1] - y[:, :, :, 1:])) + torch.sum(torch.abs(y[:, :, :-1, :] - y[:, :, 1:, :]))
-
-        # Ics_N = self.decoder(self.blending_module(content_feat_N_SVD, style_feat_SVD))
-        # loss_noise = self.calc_content_loss(Ics_N,Ics)
-
-        
-        # #Identity losses lambda 1
-        # content_feat_SVD_as_style = self.crsp_s(content_feats[-2])
-        # style_feat_SVD_as_content = self.crsp_c(style_feats[-2])
-        
-        # Icc = self.decoder(self.blending_module(content_feat_SVD, content_feat_SVD_as_style))
-        # Iss = self.decoder(self.blending_module(style_feat_SVD_as_content, style_feat_SVD)) 
-
-        # loss_lambda1 = self.calc_content_loss(Icc, content) + self.calc_content_loss(Iss,style)
-        
-        # #Identity losses lambda 2
-        # Icc_feats=self.encode_with_intermediate(Icc)
-        # Iss_feats=self.encode_with_intermediate(Iss)
-        # loss_lambda2 = self.calc_content_loss(Icc_feats[0], content_feats[0])+self.calc_content_loss(Iss_feats[0], style_feats[0])#初始化
-        # for i in range(1, 5):
-        #     loss_lambda2 += self.calc_content_loss(Icc_feats[i], content_feats[i])+self.calc_content_loss(Iss_feats[i], style_feats[i])
-        # return loss_noise, loss_c, loss_s, loss_lambda1, loss_lambda2, tv_loss, Ics
-        #return loss_c, loss_s,loss_lambda1, loss_lambda2, tv_loss
