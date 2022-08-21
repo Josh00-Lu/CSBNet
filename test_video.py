@@ -3,8 +3,7 @@ import os
 import torch
 import torch.nn as nn
 from PIL import Image
-from os.path import basename
-from os.path import splitext
+from os.path import basename, splitext
 from torchvision import transforms
 from torchvision.utils import save_image
 from function import calc_mean_std, normal, coral
@@ -12,11 +11,8 @@ import net as net
 import numpy as np
 import cv2
 import torch.backends.cudnn as cudnn
-import yaml
 from tqdm import tqdm
 import imageio
-import time
-
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -29,7 +25,7 @@ def get_files(img_dir):
     # return [os.path.join(img_dir,x) for x in files]
     return paths
 
-def load_images(content_dir, style_dir):
+def load_videos(content_dir, style_dir):
     if os.path.isdir(content_dir):
         content_paths = get_files(content_dir)
     else:  # Single image file
@@ -176,5 +172,5 @@ if __name__ == '__main__':
     network.eval()
     
     #inference
-    content_paths, style_paths = load_images(args.content_dir, args.style_dir)
+    content_paths, style_paths = load_videos(args.content_dir, args.style_dir)
     test_video(network, content_paths, style_paths, args.output_dir)
