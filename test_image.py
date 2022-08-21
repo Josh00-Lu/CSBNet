@@ -18,7 +18,7 @@ import imageio
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 # device = torch.device("cpu")
-#读取文件函数
+# read image files
 def get_files(img_dir):
     files = os.listdir(img_dir)
     paths = []
@@ -28,7 +28,7 @@ def get_files(img_dir):
     # return [os.path.join(img_dir,x) for x in files]
     return paths
 
-#加载图片
+#loading the images
 def load_images(content_dir, style_dir):
     if os.path.isdir(content_dir):
         content_paths = get_files(content_dir)
@@ -40,7 +40,6 @@ def load_images(content_dir, style_dir):
         style_paths = [style_dir]
     return content_paths, style_paths
 
-#图片预处理
 def test_transform(size, crop):
     transform_list = []
     if size != 0: 
@@ -51,20 +50,18 @@ def test_transform(size, crop):
     transform = transforms.Compose(transform_list)
     return transform
 
-#风格图预处理
 def style_transform(ori_size):
     transform_list = []
     max_s = int (np.max(ori_size))
     thresh = 512
     if max_s > thresh:
-        ratio = max_s / thresh #等比缩放
+        ratio = max_s / thresh 
         current_size = (int(ori_size[0] / ratio), int(ori_size[1] / ratio))
     transform_list.append(transforms.Resize(thresh))
     transform_list.append(transforms.ToTensor())
     transform = transforms.Compose(transform_list)
     return transform
 
-#内容图预处理
 def content_transform(ori_size):
     resized = 0
     transform_list = []
@@ -72,7 +69,7 @@ def content_transform(ori_size):
     thresh = 512
     if max_s > thresh:
         resized = 1
-        ratio = max_s / thresh#等比缩放
+        ratio = max_s / thresh
         current_size = (int(ori_size[0] / ratio), int(ori_size[1] / ratio))
         transform_list.append(transforms.Resize(current_size))
     transform_list.append(transforms.ToTensor())
@@ -86,7 +83,6 @@ def resize_transform(ori_size):
     transform = transforms.Compose(transform_list)
     return transform
 
-#图片处理，调用style_tansfer
 def image_process(network, content, style):
     C_size = content.size[::-1]
     S_size = style.size[::-1]
@@ -110,11 +106,9 @@ def image_process(network, content, style):
     
     return output.cpu()
 
-#图像风格化
 def process_image(network, content_path, style_path, outfile):
     image_name = outfile + '/{:s}_stylized_{:s}.jpg'.format(
         splitext(basename(content_path))[0], splitext(basename(style_path))[0])
-    # 对图像进行风格迁移
     content = Image.open(content_path).convert("RGB")
     style = Image.open(style_path).convert("RGB")
     output = image_process(network, content, style)
