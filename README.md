@@ -77,7 +77,7 @@ There are other training options:
 --lr_decay <Learning rate decay>
 --max_iter <The number of iteration>
 --batch_size <The batch size>
---gpu_num <We provided muilt-gpu training, you only need to point out the gpu numbers for training>
+--gpu_num <We provided muilt-gpu training, you only need to specify the number of gpu numbers used for training>
 ```
 
 ## Citation
