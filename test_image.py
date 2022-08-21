@@ -3,8 +3,7 @@ import os
 import torch
 import torch.nn as nn
 from PIL import Image
-from os.path import basename
-from os.path import splitext
+from os.path import basename, splitext
 from torchvision import transforms
 from torchvision.utils import save_image
 from function import calc_mean_std, normal, coral
@@ -12,7 +11,6 @@ import net as net
 import numpy as np
 import cv2
 import torch.backends.cudnn as cudnn
-import yaml
 from tqdm import tqdm
 import imageio
 
