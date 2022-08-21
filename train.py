@@ -4,14 +4,12 @@ import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.utils.data as data
-from PIL import Image
-from PIL import ImageFile
+from PIL import Image, ImageFile
 from torchvision import transforms
 from tqdm import tqdm
 from pathlib import Path
 import net as  net
-from function import normal
-from function import calc_mean_std
+from function import normal, calc_mean_std
 from sampler import InfiniteSamplerWrapper
 
 device_ids=[]
@@ -122,14 +120,12 @@ def get_total_loss(network, content, style, args):
         loss_style += calc_style_loss(Ics_feats[i], style_feats[i])
 
 
-    ################# Component Enhancement Loss ################
-        
+    ################# Component Enhancement Loss ###############
     loss_c_component = calc_content_loss(Ics_feats[-2], F_c_enhanced_feats)
     loss_s_component = calc_style_loss(Ics_feats[-2], F_s_enhanced_feats)
     
-    ################# Smooth Loss ################
+    ################# Smooth Loss ##############################
     # total variation loss
-    
     loss_tv = torch.sum(torch.abs(Ics[:, :, :, :-1] - Ics[:, :, :, 1:])) + torch.sum(torch.abs(Ics[:, :, :-1, :] - Ics[:, :, 1:, :]))
 
     # illumination loss
@@ -153,12 +149,10 @@ def get_total_loss(network, content, style, args):
     for i in range(1,5):
         loss_id2 += calc_content_loss(Icc_feats[i], content_feats[i]) + calc_content_loss(Iss_feats[i], style_feats[i])
     
+    ################# Training Loss ############################
     L_percep = args.lambda_content * loss_content + args.lambda_style * loss_style
-    
     L_comp = args.lambda_c_comp * loss_c_component + args.lambda_s_comp * loss_s_component
-    
     L_smooth = args.lambda_tv * loss_tv + args.lambda_illum * loss_illum
-    
     L_id = args.lambda_id1 * loss_id1 + args.lambda_id2 * loss_id2
     
     return L_percep + L_comp + L_smooth + L_id
@@ -231,10 +225,9 @@ if __name__ == '__main__':
     network = create_network(vgg, args.KC, args.KS)
 
     content_iter, style_iter = load_dataset(args.content_dir, args.style_dir)
-    
-    
+   
     optimizer = torch.optim.Adam(network.module.csbnet.parameters(), lr=args.lr)
-    
+  
     pbar = tqdm(range(args.max_iter))
     for i in pbar:
         adjust_learning_rate(optimizer, iteration_count=i)
