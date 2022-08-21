@@ -41,6 +41,7 @@ CSBNet
  ```
 ## Testing
 ### Image Test
+Prepare two folders for content images (N) and style images (M). You'll get N*M stylized images.
 ```sh
 python test_image.py \
 --content_dir <The path to a single image or a directory> \
@@ -49,6 +50,12 @@ python test_image.py \
 --output_dir <The path of the output directory> \
 --vgg_path <The path of the pretained vgg-net model> \
 --csbnet_path <The path of the csbnet pretrained model> \
+```
+You can also use the default configration by using the command below:
+```sh
+python test_image.py \
+--content_dir <The path to a single image or a directory> \
+--style_dir <The path to a single image or a directory> \
 ```
 
 ### Video Test
@@ -61,13 +68,20 @@ python test_video.py \
 --vgg_path <The path of the pretained vgg-net model> \
 --csbnet_path <The path of the csbnet pretrained model> \
 ```
+Similarly, you can also use the default configration by using the command below:
+```sh
+python test_video.py \
+--content_dir <The path to a single video or a directory> \
+--style_dir <The path to a single image or a directory> \
+```
+
 ## Training
 ```sh
 python train.py \
 --content_dir <The path to the content dataset> \
 --style_dir <The path to the style dataset> \
 ```
-There are other training options:
+There are other options for custom training, the meanings of these options are as follows:
 ```sh
 --KC <The value of KC>
 --KS <The value of KS>
@@ -78,6 +92,15 @@ There are other training options:
 --max_iter <The number of iteration>
 --batch_size <The batch size>
 --gpu_num <We provided muilt-gpu training, you only need to specify the number of gpu numbers used for training>
+```
+For example, if you want to train on four GPUs (ids=0,1,3,5), and **the sum of batch-sizes are 8** you can use the command below: 
+```sh
+CUDA_VISIBLE_DEVICES=0,1,3,5 python train.py \
+--gpu_num 4 \
+--batch_size 8 \
+--content_dir <The path to the content dataset> \
+--style_dir <The path to the style dataset> \
+--<other training options>
 ```
 
 ## Citation
