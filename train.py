@@ -34,8 +34,6 @@ class FlatFolderDataset(data.Dataset):
             for file_name in os.listdir(self.root):
                 for file_name1 in os.listdir(os.path.join(self.root,file_name)):
                     self.paths.append(self.root+"/"+file_name+"/"+file_name1)  
-            
-            
         else:
             self.paths = list(Path(self.root).glob('*'))
         self.transform = transform
