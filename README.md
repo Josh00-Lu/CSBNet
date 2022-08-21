@@ -31,7 +31,7 @@ Universal video style transfer aims to migrate arbitrary styles to input videos.
 
 * (Optional) Download the pretrained model: CSBNet (KC=4, KS=-10) [Google-Drive](https://drive.google.com/file/d/1xQLiBL2MMffFun7x9a2aaHJ0cj4hJgb0/view?usp=sharing)
 
-You can put these two files in the folder "models". Example directory hierarchy:
+You can put these two files in the folder "models". An example directory hierarchy is:
 ```sh
 CSBNet
 |--- models
