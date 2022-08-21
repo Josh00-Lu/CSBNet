@@ -97,10 +97,7 @@ def calc_style_loss(input, target):
     return nn.MSELoss()(input_mean, target_mean) + nn.MSELoss()(input_std, target_std)
             
 def get_total_loss(network, content, style, args):
-    
     Ics = network(content, style)
-    
-    
     content_feats = network.module.encode_with_intermediate(content)
     style_feats = network.module.encode_with_intermediate(style)
     Ics_feats = network.module.encode_with_intermediate(Ics)
@@ -118,8 +115,7 @@ def get_total_loss(network, content, style, args):
     loss_style = calc_style_loss(Ics_feats[0], style_feats[0])
     for i in range(1, 5):
         loss_style += calc_style_loss(Ics_feats[i], style_feats[i])
-
-
+        
     ################# Component Enhancement Loss ###############
     loss_c_component = calc_content_loss(Ics_feats[-2], F_c_enhanced_feats)
     loss_s_component = calc_style_loss(Ics_feats[-2], F_s_enhanced_feats)
@@ -137,7 +133,7 @@ def get_total_loss(network, content, style, args):
     Ics_N = network(content_noise, style)
     
     loss_illum = calc_content_loss(Ics_N, Ics)
-    
+  
     ################# Additional: Identity Loss ################
     Icc = network(content, content)
     Iss = network(style, style)
@@ -156,7 +152,6 @@ def get_total_loss(network, content, style, args):
     L_id = args.lambda_id1 * loss_id1 + args.lambda_id2 * loss_id2
     
     return L_percep + L_comp + L_smooth + L_id
-
 
 def train(content_images, style_images, network, optimizer, i, args):
     loss = get_total_loss(network, content_images, style_images, args)
@@ -185,6 +180,7 @@ def create_parser_args():
     parser.add_argument('--style_dir', default='../datasets/wikiarts/train', type=str,
                         help='Directory path to a batch of style images')
     parser.add_argument('--vgg_path', type=str, default='./models/vgg_normalised.pth')
+    parser.add_argument('--save_base', type=str, default='.')
     
     parser.add_argument('--lr', type=float, default=1e-4)
     parser.add_argument('--lr_decay', type=float, default=5e-5)
@@ -194,9 +190,6 @@ def create_parser_args():
     parser.add_argument('--n_threads', type=int, default=16)
     parser.add_argument('--save_model_interval', type=int, default=10000)
     parser.add_argument('--use_cuda', type=int, default=1)
-    
-    parser.add_argument('--save_base', type=str, default='.')
-    
     parser.add_argument('--gpu_num', type=int, default=1)
 
     args = parser.parse_args()
@@ -205,7 +198,6 @@ def create_parser_args():
     save_dir = args.save_base + '/experiments_KC='+str(args.KC)+'_KS='+str(args.KS)
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
-
     return args
 
 if __name__ == '__main__':
