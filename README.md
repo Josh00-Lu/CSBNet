@@ -105,9 +105,12 @@ CUDA_VISIBLE_DEVICES=0,1,3,5 python train.py \
 
 ## Citation
 ```sh
-@article{luuniversal,
+@inproceedings{lu2022universal,
   title={Universal Video Style Transfer via Crystallization, Separation, and Blending},
-  author={Lu, Haofei and Wang, Zhizhong}
+  author={Lu, Haofei and Wang, Zhizhong},
+  booktitle={Proceedings of the Thirty-First International Joint Conference on Artificial Intelligence (IJCAI)},
+  pages={4957--4965},
+  year={2022}
 }
 ```
 
