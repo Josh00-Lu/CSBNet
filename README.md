@@ -11,7 +11,7 @@ Universal video style transfer aims to migrate arbitrary styles to input videos.
 ![image](./Images/main_structure.png)
 
 ## Results
-(The gif format may degrade the video quality. Try it yourself in <a href="#testing">Testing</a>!)
+(Try it yourself in <a href="#testing">Testing</a>!)
 <div>
       <span><img src="./Images/brushstrokers.jpg" height="200px" width="200px"></span>
       <span><img src="./Images/1.gif" height="200px"></span>
