@@ -10,8 +10,20 @@ Universal video style transfer aims to migrate arbitrary styles to input videos.
 ![image](./Images/main_structure.png)
 
 ## Results
-![image](./Images/brushstrokers.jpg)
-![image](./Images/1.gif)
+(The gif format may degrade the video quality. Try it yourself in <a href="#testing">Testing</a>!)
+<div>
+      <span><img src="./Images/brushstrokers.jpg" height="300px" width="300px"></span>
+      <span><img src="./Images/1.gif" height="300px"></span>
+</div>
+<div>
+      <span><img src="./Images/woman_in_peasant_dress.jpg" height="300px" width="300px"></span>
+      <span><img src="./Images/2.gif" height="300px"></span>
+</div>
+<div>
+      <span><img src="./Images/other_14.jpg" height="300px" width="300px"></span>
+      <span><img src="./Images/3.gif" height="300px"></span>
+</div>
+
 
 ## Preparation 
 ### Requirements
@@ -42,6 +54,7 @@ CSBNet
       |--- {The pretrained model <CSBNet>.pth}
       
  ```
+<span id="testing"></div>
 ## Testing
 ### Image Test
 Prepare two folders for content images (N) and style images (M). You'll get N*M stylized images.
