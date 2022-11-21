@@ -123,8 +123,8 @@ def process_video(network, content_path, style_path, outfile):
         ret, frame = video.read()
         if not ret:
             break
-        style = Image.open(style_path)
-        content = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        style = Image.open(style_path).convert("RGB")
+        content = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)).convert("RGB")
         output = image_process(network, content, style)
         save_frame(output, videoWriter)
 
