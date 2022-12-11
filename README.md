@@ -13,16 +13,16 @@ Universal video style transfer aims to migrate arbitrary styles to input videos.
 ## Results
 (Try it yourself in <a href="#testing">Testing</a>!)
 <div>
-      <span><img src="./Images/brushstrokers.jpg" height="200px" width="200px"></span>
-      <span><img src="./Images/1.gif" height="200px"></span>
+      <span><img src="./Images/brushstrokers.jpg" height="150px" width="150px"></span>
+      <span><img src="./Images/1.gif" height="1500px"></span>
 </div>
 <div>
-      <span><img src="./Images/woman_in_peasant_dress.jpg" height="200px" width="200px"></span>
-      <span><img src="./Images/2.gif" height="200px"></span>
+      <span><img src="./Images/woman_in_peasant_dress.jpg" height="150px" width="150px"></span>
+      <span><img src="./Images/2.gif" height="150px"></span>
 </div>
 <div>
-      <span><img src="./Images/other_14.jpg" height="200px" width="200px"></span>
-      <span><img src="./Images/3.gif" height="200px"></span>
+      <span><img src="./Images/other_14.jpg" height="150px" width="150px"></span>
+      <span><img src="./Images/3.gif" height="150px"></span>
 </div>
 
 
