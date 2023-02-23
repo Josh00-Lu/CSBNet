@@ -15,7 +15,7 @@ from tqdm import tqdm
 import imageio
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-# device = torch.device("cpu")
+
 # read image files
 def get_files(img_dir):
     files = os.listdir(img_dir)
@@ -134,8 +134,10 @@ def create_args():
                         help='Directory path to a batch of style images')
     parser.add_argument('--output_dir', type=str, default='./results',
                         help='Directory to save the output image(s)')
-    parser.add_argument('--csbnet_path', type=str, default='./models/csbnet.pth')
-    parser.add_argument('--vgg_path', type=str, default='./models/vgg_normalised.pth')
+    parser.add_argument('--csbnet_path', type=str, default='./models/csbnet.pth',
+                        help='The path of the csbnet pretrained model')
+    parser.add_argument('--vgg_path', type=str, default='./models/vgg_normalised.pth',
+                        help='The path of the pretained vgg-net model')
 
     args = parser.parse_args()
     return args
