@@ -107,9 +107,9 @@ def get_total_loss(network, content, style, args):
     ####################### Perceptual Loss #######################
     # content loss
     loss_content = calc_content_loss(
-        normal(Ics_feats[-1]), normal(content_feats[-1])
+        Ics_feats[-1], content_feats[-1]
     ) + calc_content_loss(
-        normal(Ics_feats[-2]),normal(content_feats[-2])
+        Ics_feats[-2],content_feats[-2]
     )
     # style loss
     loss_style = calc_style_loss(Ics_feats[0], style_feats[0])
@@ -134,24 +134,12 @@ def get_total_loss(network, content, style, args):
     
     loss_illum = calc_content_loss(Ics_N, Ics)
   
-    ################# Additional: Identity Loss ################
-    Icc = network(content, content)
-    Iss = network(style, style)
-    Icc_feats = network.module.encode_with_intermediate(Icc)
-    Iss_feats = network.module.encode_with_intermediate(Iss)
-    
-    loss_id1 = calc_content_loss(Icc, content) + calc_content_loss(Iss, style)
-    loss_id2 = calc_content_loss(Icc_feats[0], content_feats[0]) + calc_content_loss(Iss_feats[0], style_feats[0])
-    for i in range(1,5):
-        loss_id2 += calc_content_loss(Icc_feats[i], content_feats[i]) + calc_content_loss(Iss_feats[i], style_feats[i])
-    
     ################# Training Loss ############################
     L_percep = args.lambda_content * loss_content + args.lambda_style * loss_style
     L_comp = args.lambda_c_comp * loss_c_component + args.lambda_s_comp * loss_s_component
     L_smooth = args.lambda_tv * loss_tv + args.lambda_illum * loss_illum
-    L_id = args.lambda_id1 * loss_id1 + args.lambda_id2 * loss_id2
     
-    return L_percep + L_comp + L_smooth + L_id
+    return L_percep + L_comp + L_smooth
 
 def train(content_images, style_images, network, optimizer, i, args):
     loss = get_total_loss(network, content_images, style_images, args)
@@ -172,8 +160,6 @@ def create_parser_args():
     parser.add_argument('--lambda_s_comp', type=float, default=1)
     parser.add_argument('--lambda_tv', type=float, default=1e-5)
     parser.add_argument('--lambda_illum', type=float, default=3000)
-    parser.add_argument('--lambda_id1', type=float, default=70)
-    parser.add_argument('--lambda_id2', type=float, default=1)
     
     parser.add_argument('--content_dir', default='../datasets/MSCOCO/train2017', type=str,
                         help='Directory path to a batch of content images')
@@ -211,9 +197,8 @@ if __name__ == '__main__':
     for i in range(args.gpu_num):
         device_ids.append(i)
 
-    # decoder = net.decoder
     vgg = net.vgg
-    vgg.load_state_dict(torch.load(args.vgg))
+    vgg.load_state_dict(torch.load(args.vgg_path))
     network = create_network(vgg, args.KC, args.KS)
 
     content_iter, style_iter = load_dataset(args.content_dir, args.style_dir)
