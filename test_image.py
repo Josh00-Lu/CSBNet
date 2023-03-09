@@ -55,7 +55,7 @@ def style_transform(ori_size):
     if max_s > thresh:
         ratio = max_s / thresh 
         current_size = (int(ori_size[0] / ratio), int(ori_size[1] / ratio))
-    transform_list.append(transforms.Resize(thresh))
+        transform_list.append(transforms.Resize(current_size))
     transform_list.append(transforms.ToTensor())
     transform = transforms.Compose(transform_list)
     return transform
